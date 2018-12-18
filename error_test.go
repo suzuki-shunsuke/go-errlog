@@ -20,7 +20,6 @@ func TestErrorError(t *testing.T) {
 	err := Wrap(fmt.Errorf("foo"), nil)
 	require.Equal(t, "foo", err.Error())
 	e := Wrap(err, nil, "bar")
-	require.Equal(t, "foo", err.Error())
 	require.Equal(t, "foo : bar", e.Error())
 }
 
