@@ -33,24 +33,33 @@ func TestLoggerWithFields(t *testing.T) {
 
 func TestLoggerDebug(t *testing.T) {
 	logger := NewLogger(nil)
+	logger.Debug(nil)
 	logger.Debug(fmt.Errorf("hello"))
 	logger.Debug(New(nil, "bar"))
 }
 
 func TestLoggerError(t *testing.T) {
 	logger := NewLogger(nil)
+	logger.Error(nil)
 	logger.Error(fmt.Errorf("hello"))
 	logger.Error(New(nil, "bar"))
 }
 
+func TestLoggerFatal(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Fatal(nil)
+}
+
 func TestLoggerInfo(t *testing.T) {
 	logger := NewLogger(nil)
+	logger.Info(nil)
 	logger.Info(fmt.Errorf("hello"))
 	logger.Info(New(nil, "bar"))
 }
 
 func TestLoggerWarn(t *testing.T) {
 	logger := NewLogger(nil)
+	logger.Warn(nil)
 	logger.Warn(fmt.Errorf("hello"))
 	logger.Warn(New(nil, "bar"))
 }

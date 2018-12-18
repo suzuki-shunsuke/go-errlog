@@ -46,7 +46,11 @@ func (logger *Logger) WithFields(fields logrus.Fields) *Logger {
 }
 
 // Debug outputs debug log.
+// If err is nil, do nothing.
 func (logger *Logger) Debug(err error) {
+	if err == nil {
+		return
+	}
 	if e, ok := err.(Error); ok {
 		logger.logger.WithFields(e.Fields()).Debug(e)
 		return
@@ -55,7 +59,11 @@ func (logger *Logger) Debug(err error) {
 }
 
 // Error outputs error log.
+// If err is nil, do nothing.
 func (logger *Logger) Error(err error) {
+	if err == nil {
+		return
+	}
 	if e, ok := err.(Error); ok {
 		logger.logger.WithFields(e.Fields()).Error(e)
 		return
@@ -64,7 +72,11 @@ func (logger *Logger) Error(err error) {
 }
 
 // Fatal outputs fatal log.
+// If err is nil, do nothing.
 func (logger *Logger) Fatal(err error) {
+	if err == nil {
+		return
+	}
 	if e, ok := err.(Error); ok {
 		logger.logger.WithFields(e.Fields()).Fatal(e)
 		return
@@ -73,7 +85,11 @@ func (logger *Logger) Fatal(err error) {
 }
 
 // Info outputs info log.
+// If err is nil, do nothing.
 func (logger *Logger) Info(err error) {
+	if err == nil {
+		return
+	}
 	if e, ok := err.(Error); ok {
 		logger.logger.WithFields(e.Fields()).Info(e)
 		return
@@ -82,7 +98,11 @@ func (logger *Logger) Info(err error) {
 }
 
 // Warn outputs warn log.
+// If err is nil, do nothing.
 func (logger *Logger) Warn(err error) {
+	if err == nil {
+		return
+	}
 	if e, ok := err.(Error); ok {
 		logger.logger.WithFields(e.Fields()).Warn(e)
 		return
