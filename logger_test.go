@@ -8,6 +8,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestLogrusLogger(t *testing.T) {
+	// test *logrus.Logger and *logrus.Entry implement LogrusLogger
+	NewLogger(&logrus.Logger{})
+	NewLogger(&logrus.Entry{})
+}
+
 func TestNewLogger(t *testing.T) {
 	logger := NewLogger(nil)
 	require.NotNil(t, logger.logger)
