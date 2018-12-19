@@ -16,9 +16,9 @@ func TestWrap(t *testing.T) {
 		expFields logrus.Fields
 		expMsgs   []string
 	}{{
-		fmt.Errorf("foo"), nil, nil, nil, nil,
+		fmt.Errorf("foo"), nil, nil, logrus.Fields{}, []string{},
 	}, {
-		&Error{err: fmt.Errorf("foo")}, logrus.Fields{"foo": "bar"}, nil, logrus.Fields{"foo": "bar"}, nil,
+		&Error{err: fmt.Errorf("foo")}, logrus.Fields{"foo": "bar"}, nil, logrus.Fields{"foo": "bar"}, []string{},
 	}}
 	for _, d := range data {
 		e := Wrap(d.err, d.fields, d.msgs...)
