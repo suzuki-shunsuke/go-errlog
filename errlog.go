@@ -14,6 +14,9 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) *Error {
 		return nil
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return nil
+		}
 		e.msgs = append(e.msgs, msgs...)
 		if e.fields == nil {
 			e.fields = logrus.Fields{}

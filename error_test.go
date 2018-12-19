@@ -28,7 +28,7 @@ func TestErrorFields(t *testing.T) {
 		fields logrus.Fields
 		exp    logrus.Fields
 	}{{
-		nil, nil,
+		nil, logrus.Fields{},
 	}, {
 		logrus.Fields{"foo": "bar"}, logrus.Fields{"foo": "bar"},
 	}}
