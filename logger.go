@@ -52,6 +52,9 @@ func (logger *Logger) Debug(err error) {
 		return
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return
+		}
 		logger.logger.WithFields(e.Fields()).Debug(e)
 		return
 	}
@@ -65,6 +68,9 @@ func (logger *Logger) Error(err error) {
 		return
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return
+		}
 		logger.logger.WithFields(e.Fields()).Error(e)
 		return
 	}
@@ -78,6 +84,9 @@ func (logger *Logger) Fatal(err error) {
 		return
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return
+		}
 		logger.logger.WithFields(e.Fields()).Fatal(e)
 		return
 	}
@@ -91,6 +100,9 @@ func (logger *Logger) Info(err error) {
 		return
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return
+		}
 		logger.logger.WithFields(e.Fields()).Info(e)
 		return
 	}
@@ -104,6 +116,9 @@ func (logger *Logger) Warn(err error) {
 		return
 	}
 	if e, ok := err.(*Error); ok {
+		if e == nil {
+			return
+		}
 		logger.logger.WithFields(e.Fields()).Warn(e)
 		return
 	}

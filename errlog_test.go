@@ -27,6 +27,7 @@ func TestWrap(t *testing.T) {
 		require.Equal(t, d.expMsgs, e.Msgs())
 	}
 	require.Nil(t, Wrap(nil, nil, "foo"))
+	require.Nil(t, Wrap(Wrap(nil, nil, "bar"), nil, "foo"))
 }
 
 func TestWrapf(t *testing.T) {
