@@ -17,14 +17,18 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) *Error {
 		if e == nil {
 			return nil
 		}
-		e.msgs = append(e.msgs, msgs...)
-		if e.fields == nil {
-			e.fields = logrus.Fields{}
+		ret := &Error{
+			err:    e.err,
+			msgs:   append(e.msgs, msgs...),
+			fields: e.fields,
+		}
+		if ret.fields == nil {
+			ret.fields = logrus.Fields{}
 		}
 		for k, v := range fields {
-			e.fields[k] = v
+			ret.fields[k] = v
 		}
-		return e
+		return ret
 	}
 	return &Error{err: err, msgs: msgs, fields: fields}
 }
