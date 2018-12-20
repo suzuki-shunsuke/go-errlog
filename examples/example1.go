@@ -20,9 +20,9 @@ func getAge(name string) (int, error) {
 }
 
 func main() {
-	logger := errlog.NewLogger(nil)
-	logger.WithFields(logrus.Fields{"program": "example1"})
+	logger := errlog.NewLogger(nil).
+		WithFields(logrus.Fields{"program": "example1"})
 	age, err := foo()
-	logger.Fatal(err)
+	logger.Fatal(err) // you don't have to check err is nil or not.
 	fmt.Printf("age: %d\n", age)
 }
