@@ -10,6 +10,11 @@
 
 Golang library for logging error with logrus more simply
 
+## Features
+
+* rich error object which has context information and messages
+* logger which logs error object more simply
+
 ## Usage
 
 See [examples](https://github.com/suzuki-shunsuke/go-errlog/blob/master/examples/example1.go) and [GoDoc](http://godoc.org/github.com/suzuki-shunsuke/go-errlog).
