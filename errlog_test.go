@@ -80,10 +80,12 @@ func TestWrap(t *testing.T) {
 		logrus.Fields{"foo": "bar"}, nil, logrus.Fields{"foo": "bar"}, []string{"foo"},
 	}}
 	for _, d := range data {
-		e := Wrap(d.err, d.fields, d.msgs...)
-		require.NotNil(t, e)
-		require.Equal(t, d.expFields, e.Fields())
-		require.Equal(t, d.expMsgs, e.Msgs())
+		err := Wrap(d.err, d.fields, d.msgs...)
+		require.NotNil(t, err)
+		if e, ok := err.(*Error); ok {
+			require.Equal(t, d.expFields, e.Fields())
+			require.Equal(t, d.expMsgs, e.Msgs())
+		}
 	}
 	require.Nil(t, Wrap(nil, nil, "foo"))
 	require.Nil(t, Wrap(Wrap(nil, nil, "bar"), nil, "foo"))
