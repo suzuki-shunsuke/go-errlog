@@ -56,20 +56,20 @@ func HasMsg(err error, msg string) bool {
 }
 
 // New is a shorthand of combination of Wrap and fmt.Errorf .
-func New(fields logrus.Fields, msg string, msgs ...string) *Error {
+func New(fields logrus.Fields, msg string, msgs ...string) error {
 	return &Error{
 		err: fmt.Errorf(msg), msgs: append([]string{msg}, msgs...), fields: fields}
 }
 
 // Newf is a shorthand of combination of New and fmt.Sprintf .
-func Newf(fields logrus.Fields, msg string, a ...interface{}) *Error {
+func Newf(fields logrus.Fields, msg string, a ...interface{}) error {
 	s := fmt.Sprintf(msg, a...)
 	return &Error{err: fmt.Errorf(s), msgs: []string{s}, fields: fields}
 }
 
 // Wrap returns an error added fields and msgs.
 // If err is nil, returns nil.
-func Wrap(err error, fields logrus.Fields, msgs ...string) *Error {
+func Wrap(err error, fields logrus.Fields, msgs ...string) error {
 	if err == nil {
 		return nil
 	}
@@ -96,6 +96,6 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) *Error {
 
 // Wrapf is a shordhand of combination of Wrap and fmt.Sprintf .
 // If err is nil, returns nil.
-func Wrapf(err error, fields logrus.Fields, msg string, a ...interface{}) *Error {
+func Wrapf(err error, fields logrus.Fields, msg string, a ...interface{}) error {
 	return Wrap(err, fields, fmt.Sprintf(msg, a...))
 }
