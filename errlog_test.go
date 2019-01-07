@@ -89,6 +89,8 @@ func TestWrap(t *testing.T) {
 	}
 	require.Nil(t, Wrap(nil, nil, "foo"))
 	require.Nil(t, Wrap(Wrap(nil, nil, "bar"), nil, "foo"))
+	var e *Error
+	require.Nil(t, Wrap(e, nil, "foo"))
 }
 
 func TestWrapf(t *testing.T) {

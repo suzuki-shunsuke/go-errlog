@@ -36,7 +36,8 @@ func TestLoggerDebug(t *testing.T) {
 	logger.Debug(nil)
 	logger.Debug(fmt.Errorf("hello"))
 	logger.Debug(New(nil, "bar"))
-	logger.Debug(Wrap(nil, nil, "bar"))
+	var e *Error
+	logger.Debug(e)
 }
 
 func TestLoggerError(t *testing.T) {
@@ -44,13 +45,15 @@ func TestLoggerError(t *testing.T) {
 	logger.Error(nil)
 	logger.Error(fmt.Errorf("hello"))
 	logger.Error(New(nil, "bar"))
-	logger.Error(Wrap(nil, nil, "bar"))
+	var e *Error
+	logger.Error(e)
 }
 
 func TestLoggerFatal(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Fatal(nil)
-	logger.Fatal(Wrap(nil, nil, "bar"))
+	var e *Error
+	logger.Fatal(e)
 }
 
 func TestLoggerInfo(t *testing.T) {
@@ -58,7 +61,8 @@ func TestLoggerInfo(t *testing.T) {
 	logger.Info(nil)
 	logger.Info(fmt.Errorf("hello"))
 	logger.Info(New(nil, "bar"))
-	logger.Info(Wrap(nil, nil, "bar"))
+	var e *Error
+	logger.Info(e)
 }
 
 func TestLoggerWarn(t *testing.T) {
@@ -66,5 +70,6 @@ func TestLoggerWarn(t *testing.T) {
 	logger.Warn(nil)
 	logger.Warn(fmt.Errorf("hello"))
 	logger.Warn(New(nil, "bar"))
-	logger.Warn(Wrap(nil, nil, "bar"))
+	var e *Error
+	logger.Warn(e)
 }
