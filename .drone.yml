@@ -3,7 +3,7 @@ kind: pipeline
 name: commitlint
 steps:
   - name: npm install
-    image: &node_image node:10.14.1-alpine
+    image: &node_image node:10.15.1-alpine
     commands:
       - npm i
   - name: tag/commitlint
@@ -39,15 +39,15 @@ steps:
   - name: go vet
     # exec: "gcc": executable file not found in $PATH
     # gcc is required
-    image: golang:1.11.2
+    image: &image_go golang:1.11.5
     commands:
       - go vet ./...
   - name: gometalinter
-    image: suzukishunsuke/go-ci:1.0.0
+    image: suzukishunsuke/go-ci:1.1.0
     commands:
       - gometalinter ./...
   - name: go test
-    image: golang:1.11.2
+    image: *image_go
     commands:
       # gcc seems to be required
       # runtime/cgo
@@ -57,7 +57,7 @@ steps:
       event:
         - pull_request
   - name: codecov
-    image: golang:1.11.2
+    image: *image_go
     commands:
       # bash and cgo seem to be required
       - bash scripts/codecov-test.sh
