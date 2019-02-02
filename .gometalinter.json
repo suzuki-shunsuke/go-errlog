@@ -14,7 +14,7 @@
     "varcheck",
     "structcheck",
     "goconst",
-    "megacheck"
+    "staticcheck"
   ],
   "Vendor": true,
   "Deadline": "300s"
