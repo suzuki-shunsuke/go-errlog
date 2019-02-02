@@ -1,6 +1,8 @@
 package errlog
 
 import (
+	"fmt"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -8,6 +10,7 @@ type (
 	// Logger is a logger for error object.
 	Logger struct {
 		logger LogrusLogger
+		msgs   []string
 	}
 
 	// LogrusLogger is an interface for logrus.Logger and logrus.Entry .
@@ -28,26 +31,33 @@ type (
 )
 
 // NewLogger returns a logger.
-func NewLogger(logger LogrusLogger) *Logger {
+func NewLogger(logger LogrusLogger, msgs ...string) *Logger {
 	if logger == nil {
 		logger = logrus.New()
 	}
-	return &Logger{logger: logger}
+	if msgs == nil {
+		msgs = []string{}
+	}
+	return &Logger{logger: logger, msgs: msgs}
 }
 
-// WithField returns a new logger added given field.
-func (logger *Logger) WithField(key string, value interface{}) *Logger {
-	return &Logger{logger: logger.logger.WithField(key, value)}
+// With returns a new logger added given fields and messages.
+func (logger *Logger) With(fields logrus.Fields, msgs ...string) *Logger {
+	return &Logger{
+		logger: logger.logger.WithFields(fields),
+		msgs:   append(logger.msgs, msgs...),
+	}
 }
 
-// WithFields returns a new logger added given fields.
-func (logger *Logger) WithFields(fields logrus.Fields) *Logger {
-	return &Logger{logger: logger.logger.WithFields(fields)}
+// Withf returns a new logger added given fields and message.
+func (logger *Logger) Withf(fields logrus.Fields, msg string, a ...interface{}) *Logger {
+	return &Logger{
+		logger: logger.logger.WithFields(fields),
+		msgs:   append(logger.msgs, fmt.Sprintf(msg, a...)),
+	}
 }
 
-// Debug outputs debug log.
-// If err is nil, do nothing.
-func (logger *Logger) Debug(err error) {
+func (logger *Logger) debug(err error) {
 	if err == nil {
 		return
 	}
@@ -56,14 +66,23 @@ func (logger *Logger) Debug(err error) {
 			return
 		}
 		logger.logger.WithFields(e.Fields()).Debug(e)
-		return
 	}
 	logger.logger.Debug(err)
 }
 
-// Error outputs error log.
+// Debug outputs debug log.
 // If err is nil, do nothing.
-func (logger *Logger) Error(err error) {
+func (logger *Logger) Debug(err error, fields logrus.Fields, msgs ...string) {
+	logger.debug(Wrap(err, fields, append(msgs, logger.msgs...)...))
+}
+
+// Debugf outputs debug log.
+// If err is nil, do nothing.
+func (logger *Logger) Debugf(err error, fields logrus.Fields, msg string, a ...interface{}) {
+	logger.Debug(err, fields, fmt.Sprintf(msg, a...))
+}
+
+func (logger *Logger) err(err error) {
 	if err == nil {
 		return
 	}
@@ -72,14 +91,23 @@ func (logger *Logger) Error(err error) {
 			return
 		}
 		logger.logger.WithFields(e.Fields()).Error(e)
-		return
 	}
 	logger.logger.Error(err)
 }
 
-// Fatal outputs fatal log.
+// Error outputs error log.
 // If err is nil, do nothing.
-func (logger *Logger) Fatal(err error) {
+func (logger *Logger) Error(err error, fields logrus.Fields, msgs ...string) {
+	logger.err(Wrap(err, fields, append(msgs, logger.msgs...)...))
+}
+
+// Errorf outputs fatal log.
+// If err is nil, do nothing.
+func (logger *Logger) Errorf(err error, fields logrus.Fields, msg string, a ...interface{}) {
+	logger.Error(err, fields, fmt.Sprintf(msg, a...))
+}
+
+func (logger *Logger) fatal(err error) {
 	if err == nil {
 		return
 	}
@@ -88,14 +116,23 @@ func (logger *Logger) Fatal(err error) {
 			return
 		}
 		logger.logger.WithFields(e.Fields()).Fatal(e)
-		return
 	}
 	logger.logger.Fatal(err)
 }
 
-// Info outputs info log.
+// Fatal outputs fatal log.
 // If err is nil, do nothing.
-func (logger *Logger) Info(err error) {
+func (logger *Logger) Fatal(err error, fields logrus.Fields, msgs ...string) {
+	logger.fatal(Wrap(err, fields, append(msgs, logger.msgs...)...))
+}
+
+// Fatalf outputs fatal log.
+// If err is nil, do nothing.
+func (logger *Logger) Fatalf(err error, fields logrus.Fields, msg string, a ...interface{}) {
+	logger.Fatal(err, fields, fmt.Sprintf(msg, a...))
+}
+
+func (logger *Logger) info(err error) {
 	if err == nil {
 		return
 	}
@@ -109,9 +146,19 @@ func (logger *Logger) Info(err error) {
 	logger.logger.Info(err)
 }
 
-// Warn outputs warn log.
+// Info outputs info log.
 // If err is nil, do nothing.
-func (logger *Logger) Warn(err error) {
+func (logger *Logger) Info(err error, fields logrus.Fields, msgs ...string) {
+	logger.info(Wrap(err, fields, append(msgs, logger.msgs...)...))
+}
+
+// Infof outputs info log.
+// If err is nil, do nothing.
+func (logger *Logger) Infof(err error, fields logrus.Fields, msg string, a ...interface{}) {
+	logger.Info(err, fields, fmt.Sprintf(msg, a...))
+}
+
+func (logger *Logger) warn(err error) {
 	if err == nil {
 		return
 	}
@@ -123,4 +170,16 @@ func (logger *Logger) Warn(err error) {
 		return
 	}
 	logger.logger.Warn(err)
+}
+
+// Warn outputs warn log.
+// If err is nil, do nothing.
+func (logger *Logger) Warn(err error, fields logrus.Fields, msgs ...string) {
+	logger.warn(Wrap(err, fields, append(msgs, logger.msgs...)...))
+}
+
+// Warnf outputs warn log.
+// If err is nil, do nothing.
+func (logger *Logger) Warnf(err error, fields logrus.Fields, msg string, a ...interface{}) {
+	logger.Warn(err, fields, fmt.Sprintf(msg, a...))
 }
