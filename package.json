@@ -3,7 +3,7 @@
     "test": "go test ./... -race -covermode=atomic",
     "fmt": "bash scripts/fmt.sh",
     "vet": "go vet ./...",
-    "lint": "gometalinter ./...",
+    "lint": "golangci-lint run",
     "c": "bash scripts/coverage.sh",
     "durl": "bash scripts/durl.sh",
     "ci-local": "time drone exec --pipeline build --env-file scripts/drone-local-env --event pull_request"

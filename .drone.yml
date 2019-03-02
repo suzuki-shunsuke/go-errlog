@@ -42,10 +42,10 @@ steps:
     image: &image_go golang:1.11.5
     commands:
       - go vet ./...
-  - name: gometalinter
-    image: suzukishunsuke/go-ci:1.1.0
+  - name: golangci-lint
+    image: golangci/golangci-lint:v1.15
     commands:
-      - gometalinter ./...
+      - golangci-lint run
   - name: go test
     image: *image_go
     commands:
