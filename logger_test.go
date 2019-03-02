@@ -34,6 +34,46 @@ func TestLogger_debug(t *testing.T) {
 	logger.debug(e)
 }
 
+func TestLoggerSdebug(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Sdebug(nil, "invalid user name")
+}
+
+func TestLoggerSdebugf(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Sdebugf(nil, "hello %s", "bob")
+}
+
+func TestLoggerSwarn(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Swarn(nil, "invalid user name")
+}
+
+func TestLoggerSwarnf(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Swarnf(nil, "hello %s", "bob")
+}
+
+func TestLoggerSerror(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Serror(nil, "invalid user name")
+}
+
+func TestLoggerSerrorf(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Serrorf(nil, "hello %s", "bob")
+}
+
+func TestLoggerSinfo(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Sinfo(nil, "invalid user name")
+}
+
+func TestLoggerSinfof(t *testing.T) {
+	logger := NewLogger(nil)
+	logger.Sinfof(nil, "hello %s", "bob")
+}
+
 func TestLoggerDebug(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Debug(fmt.Errorf("invalid user name"), nil)

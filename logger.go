@@ -57,6 +57,56 @@ func (logger *Logger) debug(err error) {
 	logger.logger.Debug(err)
 }
 
+// Sdebug outputs debug log.
+func (logger *Logger) Sdebug(fields logrus.Fields, msg string, msgs ...string) {
+	logger.debug(New(fields, msg, msgs...))
+}
+
+// Sdebugf outputs debug log.
+func (logger *Logger) Sdebugf(fields logrus.Fields, msg string, a ...interface{}) {
+	logger.debug(Newf(fields, msg, a...))
+}
+
+// Sfatal outputs fatal log.
+func (logger *Logger) Sfatal(fields logrus.Fields, msg string, msgs ...string) {
+	logger.fatal(New(fields, msg, msgs...))
+}
+
+// Sfatalf outputs fatal log.
+func (logger *Logger) Sfatalf(fields logrus.Fields, msg string, a ...interface{}) {
+	logger.fatal(Newf(fields, msg, a...))
+}
+
+// Swarn outputs warn log.
+func (logger *Logger) Swarn(fields logrus.Fields, msg string, msgs ...string) {
+	logger.warn(New(fields, msg, msgs...))
+}
+
+// Swarnf outputs warn log.
+func (logger *Logger) Swarnf(fields logrus.Fields, msg string, a ...interface{}) {
+	logger.warn(Newf(fields, msg, a...))
+}
+
+// Sinfo outputs info log.
+func (logger *Logger) Sinfo(fields logrus.Fields, msg string, msgs ...string) {
+	logger.info(New(fields, msg, msgs...))
+}
+
+// Sinfof outputs info log.
+func (logger *Logger) Sinfof(fields logrus.Fields, msg string, a ...interface{}) {
+	logger.info(Newf(fields, msg, a...))
+}
+
+// Serror outputs error log.
+func (logger *Logger) Serror(fields logrus.Fields, msg string, msgs ...string) {
+	logger.err(New(fields, msg, msgs...))
+}
+
+// Serrorf outputs error log.
+func (logger *Logger) Serrorf(fields logrus.Fields, msg string, a ...interface{}) {
+	logger.err(Newf(fields, msg, a...))
+}
+
 // Debug outputs debug log.
 // If err is nil, do nothing.
 func (logger *Logger) Debug(err error, fields logrus.Fields, msgs ...string) {
