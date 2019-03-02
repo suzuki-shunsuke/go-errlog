@@ -21,13 +21,7 @@ func TestNewLogger(t *testing.T) {
 
 func TestLoggerWith(t *testing.T) {
 	logger := NewLogger(nil)
-	logger = logger.With(logrus.Fields{"foo": "bar"}, "hello world")
-	logger.Info(fmt.Errorf("hello"), nil)
-}
-
-func TestLoggerWithf(t *testing.T) {
-	logger := NewLogger(nil)
-	logger = logger.Withf(logrus.Fields{"foo": "bar"}, "hello %s", "bob")
+	logger = logger.With(logrus.Fields{"foo": "bar"})
 	logger.Info(fmt.Errorf("hello"), nil)
 }
 

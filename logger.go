@@ -10,7 +10,6 @@ type (
 	// Logger is a logger for error object.
 	Logger struct {
 		logger LogrusLogger
-		msgs   []string
 	}
 
 	// LogrusLogger is an interface for logrus.Logger and logrus.Entry .
@@ -31,29 +30,17 @@ type (
 )
 
 // NewLogger returns a logger.
-func NewLogger(logger LogrusLogger, msgs ...string) *Logger {
+func NewLogger(logger LogrusLogger) *Logger {
 	if logger == nil {
 		logger = logrus.New()
 	}
-	if msgs == nil {
-		msgs = []string{}
-	}
-	return &Logger{logger: logger, msgs: msgs}
+	return &Logger{logger: logger}
 }
 
 // With returns a new logger added given fields and messages.
-func (logger *Logger) With(fields logrus.Fields, msgs ...string) *Logger {
+func (logger *Logger) With(fields logrus.Fields) *Logger {
 	return &Logger{
 		logger: logger.logger.WithFields(fields),
-		msgs:   append(logger.msgs, msgs...),
-	}
-}
-
-// Withf returns a new logger added given fields and message.
-func (logger *Logger) Withf(fields logrus.Fields, msg string, a ...interface{}) *Logger {
-	return &Logger{
-		logger: logger.logger.WithFields(fields),
-		msgs:   append(logger.msgs, fmt.Sprintf(msg, a...)),
 	}
 }
 
@@ -73,7 +60,7 @@ func (logger *Logger) debug(err error) {
 // Debug outputs debug log.
 // If err is nil, do nothing.
 func (logger *Logger) Debug(err error, fields logrus.Fields, msgs ...string) {
-	logger.debug(Wrap(err, fields, append(msgs, logger.msgs...)...))
+	logger.debug(Wrap(err, fields, msgs...))
 }
 
 // Debugf outputs debug log.
@@ -98,7 +85,7 @@ func (logger *Logger) err(err error) {
 // Error outputs error log.
 // If err is nil, do nothing.
 func (logger *Logger) Error(err error, fields logrus.Fields, msgs ...string) {
-	logger.err(Wrap(err, fields, append(msgs, logger.msgs...)...))
+	logger.err(Wrap(err, fields, msgs...))
 }
 
 // Errorf outputs fatal log.
@@ -123,7 +110,7 @@ func (logger *Logger) fatal(err error) {
 // Fatal outputs fatal log.
 // If err is nil, do nothing.
 func (logger *Logger) Fatal(err error, fields logrus.Fields, msgs ...string) {
-	logger.fatal(Wrap(err, fields, append(msgs, logger.msgs...)...))
+	logger.fatal(Wrap(err, fields, msgs...))
 }
 
 // Fatalf outputs fatal log.
@@ -149,7 +136,7 @@ func (logger *Logger) info(err error) {
 // Info outputs info log.
 // If err is nil, do nothing.
 func (logger *Logger) Info(err error, fields logrus.Fields, msgs ...string) {
-	logger.info(Wrap(err, fields, append(msgs, logger.msgs...)...))
+	logger.info(Wrap(err, fields, msgs...))
 }
 
 // Infof outputs info log.
@@ -175,7 +162,7 @@ func (logger *Logger) warn(err error) {
 // Warn outputs warn log.
 // If err is nil, do nothing.
 func (logger *Logger) Warn(err error, fields logrus.Fields, msgs ...string) {
-	logger.warn(Wrap(err, fields, append(msgs, logger.msgs...)...))
+	logger.warn(Wrap(err, fields, msgs...))
 }
 
 // Warnf outputs warn log.
