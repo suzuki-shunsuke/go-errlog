@@ -35,12 +35,16 @@ func (e *Error) CheckField(key string, f func(v interface{}) bool) bool {
 	return false
 }
 
+func join(msgs ...string) string {
+	return strings.Join(msgs, " : ")
+}
+
 // Error returns a message represents error.
 func (e *Error) Error() string {
 	if e == nil {
 		return ""
 	}
-	return strings.Join(e.msgs, " : ")
+	return join(e.msgs...)
 }
 
 // Fields returns structured data of error.
