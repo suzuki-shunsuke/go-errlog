@@ -23,6 +23,6 @@ func main() {
 	logger := errlog.NewLogger(nil).
 		WithFields(logrus.Fields{"program": "example1"})
 	age, err := foo()
-	logger.Fatal(err, nil, "function foo is failure") // you don't have to check err is nil or not.
+	logger.Fatal(err, "function foo is failure") // you don't have to check err is nil or not.
 	fmt.Printf("age: %d\n", age)
 }
