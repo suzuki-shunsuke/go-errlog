@@ -70,54 +70,53 @@ func (logger *Logger) debug(err error) {
 }
 
 // Sdebug outputs debug log.
-func (logger *Logger) Sdebug(msg string, msgs ...string) {
-	// logger.Logger().Debug(msg, msgs)
-	logger.debug(New(nil, msg, msgs...))
+func (logger *Logger) Sdebug(msgs ...string) {
+	logger.logger.Debug(join(msgs...))
 }
 
 // Sdebugf outputs debug log.
 func (logger *Logger) Sdebugf(msg string, a ...interface{}) {
-	logger.debug(Newf(nil, msg, a...))
+	logger.logger.Debugf(msg, a...)
 }
 
 // Sfatal outputs fatal log.
-func (logger *Logger) Sfatal(msg string, msgs ...string) {
-	logger.fatal(New(nil, msg, msgs...))
+func (logger *Logger) Sfatal(msgs ...string) {
+	logger.logger.Fatal(join(msgs...))
 }
 
 // Sfatalf outputs fatal log.
 func (logger *Logger) Sfatalf(msg string, a ...interface{}) {
-	logger.fatal(Newf(nil, msg, a...))
+	logger.logger.Fatalf(msg, a...)
 }
 
 // Swarn outputs warn log.
-func (logger *Logger) Swarn(msg string, msgs ...string) {
-	logger.warn(New(nil, msg, msgs...))
+func (logger *Logger) Swarn(msgs ...string) {
+	logger.logger.Warn(join(msgs...))
 }
 
 // Swarnf outputs warn log.
 func (logger *Logger) Swarnf(msg string, a ...interface{}) {
-	logger.warn(Newf(nil, msg, a...))
+	logger.logger.Warnf(msg, a...)
 }
 
 // Sinfo outputs info log.
-func (logger *Logger) Sinfo(msg string, msgs ...string) {
-	logger.info(New(nil, msg, msgs...))
+func (logger *Logger) Sinfo(msgs ...string) {
+	logger.logger.Info(join(msgs...))
 }
 
 // Sinfof outputs info log.
 func (logger *Logger) Sinfof(msg string, a ...interface{}) {
-	logger.info(Newf(nil, msg, a...))
+	logger.logger.Infof(msg, a...)
 }
 
 // Serror outputs error log.
-func (logger *Logger) Serror(msg string, msgs ...string) {
-	logger.err(New(nil, msg, msgs...))
+func (logger *Logger) Serror(msgs ...string) {
+	logger.logger.Error(join(msgs...))
 }
 
 // Serrorf outputs error log.
 func (logger *Logger) Serrorf(msg string, a ...interface{}) {
-	logger.err(Newf(nil, msg, a...))
+	logger.logger.Errorf(msg, a...)
 }
 
 // Debug outputs debug log.
