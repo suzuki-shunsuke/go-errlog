@@ -19,9 +19,15 @@ func TestNewLogger(t *testing.T) {
 	require.NotNil(t, logger.logger)
 }
 
-func TestLoggerWith(t *testing.T) {
+func TestLoggerWithField(t *testing.T) {
 	logger := NewLogger(nil)
-	logger = logger.With(logrus.Fields{"foo": "bar"})
+	logger = logger.WithField("foo", "bar")
+	logger.Info(fmt.Errorf("hello"), nil)
+}
+
+func TestLoggerWithFields(t *testing.T) {
+	logger := NewLogger(nil)
+	logger = logger.WithFields(logrus.Fields{"foo": "bar"})
 	logger.Info(fmt.Errorf("hello"), nil)
 }
 

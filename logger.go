@@ -37,8 +37,15 @@ func NewLogger(logger LogrusLogger) *Logger {
 	return &Logger{logger: logger}
 }
 
-// With returns a new logger added given fields and messages.
-func (logger *Logger) With(fields logrus.Fields) *Logger {
+// WithField returns a new logger added given fields and messages.
+func (logger *Logger) WithField(key string, value interface{}) *Logger {
+	return &Logger{
+		logger: logger.logger.WithField(key, value),
+	}
+}
+
+// WithFields returns a new logger added given fields and messages.
+func (logger *Logger) WithFields(fields logrus.Fields) *Logger {
 	return &Logger{
 		logger: logger.logger.WithFields(fields),
 	}
