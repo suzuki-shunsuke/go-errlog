@@ -33,7 +33,7 @@ steps:
     commands:
       - dep-dl
   - name: durl
-    image: quay.io/suzuki_shunsuke/durl:0.1.1
+    image: quay.io/suzuki_shunsuke/durl:0.8.0
     commands:
       - sh scripts/durl.sh
   - name: go vet
