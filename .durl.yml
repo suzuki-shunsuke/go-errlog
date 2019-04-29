@@ -3,3 +3,4 @@
 # https://github.com/suzuki-shunsuke/durl
 ignore_urls:
 - https://codecov.io/bash  # sometimes returns 503
+max_failed_request_count: 5
