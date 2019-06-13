@@ -24,14 +24,7 @@ steps:
 ---
 kind: pipeline
 name: build
-workspace:
-  base: /go
-  path: src/github.com/suzuki-shunsuke/go-errlog
 steps:
-  - name: dep-dl
-    image: suzukishunsuke/dep-dl:0.1.0
-    commands:
-      - dep-dl
   - name: durl
     image: quay.io/suzuki_shunsuke/durl:0.8.0
     commands:
@@ -42,10 +35,14 @@ steps:
     image: &image_go golang:1.12.6
     commands:
       - go vet ./...
+    environment:
+      GO111MODULE: on
   - name: golangci-lint
     image: golangci/golangci-lint:v1.17.1
     commands:
       - golangci-lint run
+    environment:
+      GO111MODULE: on
   - name: go test
     image: *image_go
     commands:
@@ -53,6 +50,8 @@ steps:
       # runtime/cgo
       # exec: "gcc": executable file not found in $PATH
       - go test -race -covermode=atomic ./...
+    environment:
+      GO111MODULE: on
     when:
       event:
         - pull_request
@@ -62,6 +61,7 @@ steps:
       # bash and cgo seem to be required
       - bash scripts/codecov-test.sh
     environment:
+      GO111MODULE: on
       CODECOV_TOKEN:
         from_secret: codecov_token
     when:
