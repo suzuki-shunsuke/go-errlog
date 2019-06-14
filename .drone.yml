@@ -2,69 +2,47 @@
 kind: pipeline
 name: commitlint
 steps:
-  - name: npm install
-    image: &node_image node:10.16.0-alpine
-    commands:
-      - npm i
-  - name: tag/commitlint
-    image: *node_image
-    commands:
-      - npx commitlint --from HEAD~1 --to HEAD
-    when:
-      event:
-        - tag
-        - push
-  - name: pr/commitlint
-    image: *node_image
-    commands:
-      - npx commitlint --from master --to HEAD || exit 1
-    when:
-      event:
-        - pull_request
+- name: npm install
+  image: &node_image node:10.16.0-alpine
+  commands:
+  - npm i
+- name: tag/commitlint
+  image: *node_image
+  commands:
+  - npx commitlint --from HEAD~1 --to HEAD
+  when:
+    event:
+    - tag
+    - push
+- name: pr/commitlint
+  image: *node_image
+  commands:
+  - npx commitlint --from master --to HEAD || exit 1
+  when:
+    event:
+    - pull_request
 ---
 kind: pipeline
 name: build
 steps:
-  - name: durl
-    image: quay.io/suzuki_shunsuke/durl:0.8.0
-    commands:
-      - sh scripts/durl.sh
-  - name: go vet
-    # exec: "gcc": executable file not found in $PATH
-    # gcc is required
-    image: &image_go golang:1.12.6
-    commands:
-      - go vet ./...
-    environment:
-      GO111MODULE: on
-  - name: golangci-lint
-    image: golangci/golangci-lint:v1.17.1
-    commands:
-      - golangci-lint run
-    environment:
-      GO111MODULE: on
-  - name: go test
-    image: *image_go
-    commands:
-      # gcc seems to be required
-      # runtime/cgo
-      # exec: "gcc": executable file not found in $PATH
-      - go test -race -covermode=atomic ./...
-    environment:
-      GO111MODULE: on
-    when:
-      event:
-        - pull_request
-  - name: codecov
-    image: *image_go
-    commands:
-      # bash and cgo seem to be required
-      - bash scripts/codecov-test.sh
-    environment:
-      GO111MODULE: on
-      CODECOV_TOKEN:
-        from_secret: codecov_token
-    when:
-      event:
-        - push
-        - tag
+- name: durl
+  image: quay.io/suzuki_shunsuke/durl:0.8.0
+  commands:
+    - sh scripts/durl.sh
+- name: golangci-lint
+  image: golangci/golangci-lint:v1.17.1
+  commands:
+  - golangci-lint run
+  environment:
+    GO111MODULE: on
+- name: codecov
+  image: golang:1.12.6
+  commands:
+  # bash and cgo seem to be required
+  - go test -race -coverprofile=coverage.out -covermode=atomic .
+  - curl -s https://codecov.io/bash > /tmp/codecov.sh
+  - test "$LOCAL" = "true" -o "$DRONE_BUILD_EVENT" = "pull_request" || bash /tmp/codecov.sh
+  environment:
+    GO111MODULE: on
+    CODECOV_TOKEN:
+      from_secret: codecov_token
