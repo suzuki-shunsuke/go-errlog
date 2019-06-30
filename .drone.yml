@@ -24,6 +24,9 @@ steps:
 ---
 kind: pipeline
 name: build
+workspace:
+  base: /go
+  path: src/github.com/suzuki-shunsuke/go-errlog
 steps:
 - name: durl
   image: quay.io/suzuki_shunsuke/durl:0.8.0
@@ -35,6 +38,7 @@ steps:
   - golangci-lint run
   environment:
     GO111MODULE: on
+    GOPATH: /go
 - name: codecov
   image: golang:1.12.6
   commands:
@@ -44,5 +48,6 @@ steps:
   - test "$LOCAL" = "true" -o "$DRONE_BUILD_EVENT" = "pull_request" || bash /tmp/codecov.sh
   environment:
     GO111MODULE: on
+    GOPATH: /go
     CODECOV_TOKEN:
       from_secret: codecov_token
