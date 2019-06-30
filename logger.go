@@ -140,6 +140,7 @@ func (logger *Logger) err(err error) {
 			return
 		}
 		logger.logger.WithFields(e.Fields()).Error(e)
+		return
 	}
 	logger.logger.Error(err)
 }
