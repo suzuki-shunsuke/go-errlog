@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestErrorCause(t *testing.T) {
+func TestError_Cause(t *testing.T) {
 	msg := "foo"
 	err := Error{err: fmt.Errorf(msg)}
 	e := err.Cause()
@@ -18,7 +18,7 @@ func TestErrorCause(t *testing.T) {
 	require.Nil(t, e2.Cause())
 }
 
-func TestErrorError(t *testing.T) {
+func TestError_Error(t *testing.T) {
 	err := Wrap(fmt.Errorf("foo"), nil)
 	require.Equal(t, "foo", err.Error())
 	e := Wrap(err, nil, "bar")
@@ -27,7 +27,7 @@ func TestErrorError(t *testing.T) {
 	require.Equal(t, "", e2.Error())
 }
 
-func TestErrorFields(t *testing.T) {
+func TestError_Fields(t *testing.T) {
 	data := []struct {
 		fields logrus.Fields
 		exp    logrus.Fields
@@ -44,7 +44,7 @@ func TestErrorFields(t *testing.T) {
 	require.Equal(t, logrus.Fields{}, e2.Fields())
 }
 
-func TestErrorMsgs(t *testing.T) {
+func TestError_Msgs(t *testing.T) {
 	msgs := []string{"foo", "bar"}
 	err := &Error{err: fmt.Errorf("hello"), msgs: msgs}
 	require.Equal(t, msgs, err.Msgs())

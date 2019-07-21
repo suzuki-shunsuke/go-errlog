@@ -19,19 +19,19 @@ func TestNewLogger(t *testing.T) {
 	require.NotNil(t, logger.logger)
 }
 
-func TestLoggerWithField(t *testing.T) {
+func TestLogger_WithField(t *testing.T) {
 	logger := NewLogger(nil)
 	logger = logger.WithField("foo", "bar")
 	logger.Info(fmt.Errorf("hello"))
 }
 
-func TestLoggerWithFields(t *testing.T) {
+func TestLogger_WithFields(t *testing.T) {
 	logger := NewLogger(nil)
 	logger = logger.WithFields(logrus.Fields{"foo": "bar"})
 	logger.Info(fmt.Errorf("hello"))
 }
 
-func TestLoggerLogger(t *testing.T) {
+func TestLogger_Logger(t *testing.T) {
 	logger := NewLogger(nil)
 	require.NotNil(t, logger.Logger())
 }
@@ -45,52 +45,52 @@ func TestLogger_debug(t *testing.T) {
 	logger.debug(e)
 }
 
-func TestLoggerSdebug(t *testing.T) {
+func TestLogger_Sdebug(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Sdebug("invalid user name")
 }
 
-func TestLoggerSdebugf(t *testing.T) {
+func TestLogger_Sdebugf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Sdebugf("hello %s", "bob")
 }
 
-func TestLoggerSwarn(t *testing.T) {
+func TestLogger_Swarn(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Swarn("invalid user name")
 }
 
-func TestLoggerSwarnf(t *testing.T) {
+func TestLogger_Swarnf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Swarnf("hello %s", "bob")
 }
 
-func TestLoggerSerror(t *testing.T) {
+func TestLogger_Serror(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Serror("invalid user name")
 }
 
-func TestLoggerSerrorf(t *testing.T) {
+func TestLogger_Serrorf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Serrorf("hello %s", "bob")
 }
 
-func TestLoggerSinfo(t *testing.T) {
+func TestLogger_Sinfo(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Sinfo("invalid user name")
 }
 
-func TestLoggerSinfof(t *testing.T) {
+func TestLogger_Sinfof(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Sinfof("hello %s", "bob")
 }
 
-func TestLoggerDebug(t *testing.T) {
+func TestLogger_Debug(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Debug(fmt.Errorf("invalid user name"))
 }
 
-func TestLoggerDebugf(t *testing.T) {
+func TestLogger_Debugf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Debugf(fmt.Errorf("invalid user name"), "hello %s", "bob")
 }
@@ -104,12 +104,12 @@ func TestLogger_err(t *testing.T) {
 	logger.err(e)
 }
 
-func TestLoggerError(t *testing.T) {
+func TestLogger_Error(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Error(fmt.Errorf("invalid user name"))
 }
 
-func TestLoggerErrorf(t *testing.T) {
+func TestLogger_Errorf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Errorf(fmt.Errorf("invalid user name"), "hello %s", "bob")
 }
@@ -121,12 +121,12 @@ func TestLogger_fatal(t *testing.T) {
 	logger.fatal(e)
 }
 
-func TestLoggerFatal(t *testing.T) {
+func TestLogger_Fatal(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Fatal(nil)
 }
 
-func TestLoggerFatalf(t *testing.T) {
+func TestLogger_Fatalf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Fatalf(nil, "hello %s", "bob")
 }
@@ -140,12 +140,12 @@ func TestLogger_info(t *testing.T) {
 	logger.info(e)
 }
 
-func TestLoggerInfo(t *testing.T) {
+func TestLogger_Info(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Info(fmt.Errorf("invalid user name"))
 }
 
-func TestLoggerInfof(t *testing.T) {
+func TestLogger_Infof(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Infof(fmt.Errorf("invalid user name"), "hello %s", "bob")
 }
@@ -159,12 +159,12 @@ func TestLogger_warn(t *testing.T) {
 	logger.warn(e)
 }
 
-func TestLoggerWarn(t *testing.T) {
+func TestLogger_Warn(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Warn(fmt.Errorf("invalid user name"))
 }
 
-func TestLoggerWarnf(t *testing.T) {
+func TestLogger_Warnf(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.Warnf(fmt.Errorf("invalid user name"), "hello %s", "bob")
 }
