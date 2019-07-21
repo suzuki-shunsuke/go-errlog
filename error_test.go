@@ -18,16 +18,6 @@ func TestErrorCause(t *testing.T) {
 	require.Nil(t, e2.Cause())
 }
 
-func TestErrorCheckField(t *testing.T) {
-	err := Error{err: fmt.Errorf("foo"), fields: logrus.Fields{"bar": "zoo"}}
-	require.False(t, err.CheckField("foo", func(v interface{}) bool {
-		return v == 1
-	}))
-	require.True(t, err.CheckField("bar", func(v interface{}) bool {
-		return v == "zoo"
-	}))
-}
-
 func TestErrorError(t *testing.T) {
 	err := Wrap(fmt.Errorf("foo"), nil)
 	require.Equal(t, "foo", err.Error())
@@ -52,22 +42,6 @@ func TestErrorFields(t *testing.T) {
 	}
 	var e2 *Error
 	require.Equal(t, logrus.Fields{}, e2.Fields())
-}
-
-func TestErrorGetField(t *testing.T) {
-}
-
-func TestErrorHasField(t *testing.T) {
-	e := &Error{}
-	require.False(t, e.HasField("foo"))
-}
-
-func TestErrorHasMsg(t *testing.T) {
-	var e *Error
-	require.False(t, e.HasMsg("foo"))
-	e = &Error{msgs: []string{"foo"}}
-	require.True(t, e.HasMsg("foo"))
-	require.False(t, e.HasMsg("bar"))
 }
 
 func TestErrorMsgs(t *testing.T) {

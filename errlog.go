@@ -13,7 +13,14 @@ func CheckField(err error, key string, f func(v interface{}) bool) bool {
 		return false
 	}
 	if e, ok := err.(*Error); ok {
-		return e.CheckField(key, f)
+		if e == nil {
+			return false
+		}
+		v, ok := e.Fields()[key]
+		if ok {
+			return f(v)
+		}
+		return false
 	}
 	return false
 }
@@ -26,7 +33,11 @@ func GetField(err error, key string) (interface{}, bool) {
 		return nil, false
 	}
 	if e, ok := err.(*Error); ok {
-		return e.GetField(key)
+		if e == nil {
+			return nil, false
+		}
+		v, ok := e.Fields()[key]
+		return v, ok
 	}
 	return nil, false
 }
@@ -37,7 +48,11 @@ func HasField(err error, key string) bool {
 		return false
 	}
 	if e, ok := err.(*Error); ok {
-		return e.HasField(key)
+		if e == nil {
+			return false
+		}
+		_, ok := e.Fields()[key]
+		return ok
 	}
 	return false
 }
@@ -50,7 +65,15 @@ func HasMsg(err error, msg string) bool {
 		return false
 	}
 	if e, ok := err.(*Error); ok {
-		return e.HasMsg(msg)
+		if e == nil {
+			return false
+		}
+		for _, m := range e.Msgs() {
+			if m == msg {
+				return true
+			}
+		}
+		return false
 	}
 	return err.Error() == msg
 }
