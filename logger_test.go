@@ -41,7 +41,7 @@ func TestLogger_debug(t *testing.T) {
 	logger.debug(nil)
 	logger.debug(fmt.Errorf("hello"))
 	logger.debug(New(nil, "bar"))
-	var e *Error
+	var e *base
 	logger.debug(e)
 }
 
@@ -100,7 +100,7 @@ func TestLogger_err(t *testing.T) {
 	logger.err(nil)
 	logger.err(fmt.Errorf("hello"))
 	logger.err(New(nil, "bar"))
-	var e *Error
+	var e *base
 	logger.err(e)
 }
 
@@ -117,7 +117,7 @@ func TestLogger_Errorf(t *testing.T) {
 func TestLogger_fatal(t *testing.T) {
 	logger := NewLogger(nil)
 	logger.fatal(nil)
-	var e *Error
+	var e *base
 	logger.fatal(e)
 }
 
@@ -136,7 +136,7 @@ func TestLogger_info(t *testing.T) {
 	logger.info(nil)
 	logger.info(fmt.Errorf("hello"))
 	logger.info(New(nil, "bar"))
-	var e *Error
+	var e *base
 	logger.info(e)
 }
 
@@ -155,7 +155,7 @@ func TestLogger_warn(t *testing.T) {
 	logger.warn(nil)
 	logger.warn(fmt.Errorf("hello"))
 	logger.warn(New(nil, "bar"))
-	var e *Error
+	var e *base
 	logger.warn(e)
 }
 

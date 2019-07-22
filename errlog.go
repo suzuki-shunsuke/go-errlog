@@ -12,7 +12,7 @@ func CheckField(err error, key string, f func(v interface{}) bool) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return false
 		}
@@ -32,7 +32,7 @@ func GetField(err error, key string) (interface{}, bool) {
 	if err == nil {
 		return nil, false
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return nil, false
 		}
@@ -47,7 +47,7 @@ func HasField(err error, key string) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return false
 		}
@@ -59,12 +59,12 @@ func HasField(err error, key string) bool {
 
 // HasMsg returns whether error has the message.
 // If err is nil, returns false.
-// If err isn't Error, returns err.Error() == msg .
+// If err isn't base, returns err.Error() == msg .
 func HasMsg(err error, msg string) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return false
 		}
@@ -80,14 +80,14 @@ func HasMsg(err error, msg string) bool {
 
 // New is a shorthand of combination of Wrap and fmt.Errorf .
 func New(fields logrus.Fields, msg string, msgs ...string) error {
-	return &Error{
+	return &base{
 		err: fmt.Errorf(msg), msgs: append([]string{msg}, msgs...), fields: fields}
 }
 
 // Newf is a shorthand of combination of New and fmt.Sprintf .
 func Newf(fields logrus.Fields, msg string, a ...interface{}) error {
 	s := fmt.Sprintf(msg, a...)
-	return &Error{err: fmt.Errorf(s), msgs: []string{s}, fields: fields}
+	return &base{err: fmt.Errorf(s), msgs: []string{s}, fields: fields}
 }
 
 // Wrap returns an error added fields and msgs.
@@ -96,11 +96,11 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) error {
 	if err == nil {
 		return nil
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return nil
 		}
-		ret := &Error{
+		ret := &base{
 			err:    e.err,
 			msgs:   append(e.msgs, msgs...),
 			fields: e.fields,
@@ -113,7 +113,7 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) error {
 		}
 		return ret
 	}
-	return &Error{
+	return &base{
 		err: err, msgs: append([]string{err.Error()}, msgs...), fields: fields}
 }
 

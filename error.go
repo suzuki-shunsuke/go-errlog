@@ -7,8 +7,7 @@ import (
 )
 
 type (
-	// Error is a structured error.
-	Error struct {
+	base struct {
 		err    error
 		msgs   []string
 		fields logrus.Fields
@@ -20,7 +19,7 @@ type (
 )
 
 // Cause returns a base error.
-func (e *Error) Cause() error {
+func (e *base) Cause() error {
 	if e == nil {
 		return nil
 	}
@@ -35,7 +34,7 @@ func join(msgs ...string) string {
 }
 
 // Error returns a message represents error.
-func (e *Error) Error() string {
+func (e *base) Error() string {
 	if e == nil {
 		return ""
 	}

@@ -12,7 +12,7 @@ func TestCheckField(t *testing.T) {
 	f := func(v interface{}) bool {
 		return v == 1
 	}
-	var e *Error
+	var e *base
 	data := []struct {
 		title string
 		err   error
@@ -22,24 +22,24 @@ func TestCheckField(t *testing.T) {
 			title: "err is nil",
 		},
 		{
-			title: "Error is nil",
+			title: "base is nil",
 			err:   e,
 		},
 		{
-			title: "not Error",
+			title: "not base",
 			err:   fmt.Errorf("foo"),
 		},
 		{
-			title: "Error doesn't have the key",
-			err:   &Error{},
+			title: "base doesn't have the key",
+			err:   &base{},
 		},
 		{
 			title: "the function returns false",
-			err:   &Error{fields: logrus.Fields{"foo": 0}},
+			err:   &base{fields: logrus.Fields{"foo": 0}},
 		},
 		{
 			title: "the function returns true",
-			err:   &Error{fields: logrus.Fields{"foo": 1}},
+			err:   &base{fields: logrus.Fields{"foo": 1}},
 			exp:   true,
 		},
 	}
@@ -55,7 +55,7 @@ func TestCheckField(t *testing.T) {
 }
 
 func TestGetField(t *testing.T) {
-	var e *Error
+	var e *base
 	data := []struct {
 		title string
 		err   error
@@ -70,12 +70,12 @@ func TestGetField(t *testing.T) {
 			err:   fmt.Errorf("foo"),
 		},
 		{
-			title: "err is an Error but nil",
+			title: "err is a base but nil",
 			err:   e,
 		},
 		{
-			title: "err is an Error",
-			err:   &Error{fields: logrus.Fields{"foo": "bar"}},
+			title: "err is a base",
+			err:   &base{fields: logrus.Fields{"foo": "bar"}},
 			expV:  "bar",
 			expB:  true,
 		},
@@ -94,7 +94,7 @@ func TestGetField(t *testing.T) {
 }
 
 func TestHasField(t *testing.T) {
-	var e *Error
+	var e *base
 	data := []struct {
 		title string
 		err   error
@@ -104,21 +104,21 @@ func TestHasField(t *testing.T) {
 			title: "err is nil",
 		},
 		{
-			title: "err is not Error",
+			title: "err is not base",
 			err:   fmt.Errorf("foo"),
 		},
 		{
-			title: "err is an Error but nil",
+			title: "err is a base but nil",
 			err:   e,
 		},
 		{
-			title: "err is an Error",
-			err:   &Error{fields: logrus.Fields{"foo": "bar"}},
+			title: "err is an base",
+			err:   &base{fields: logrus.Fields{"foo": "bar"}},
 			exp:   true,
 		},
 		{
-			title: "err is an Error but doesn't have the field",
-			err:   &Error{},
+			title: "err is a base but doesn't have the field",
+			err:   &base{},
 			exp:   false,
 		},
 	}
@@ -134,7 +134,7 @@ func TestHasField(t *testing.T) {
 }
 
 func TestHasMsg(t *testing.T) {
-	var e *Error
+	var e *base
 	data := []struct {
 		title string
 		err   error
@@ -144,25 +144,25 @@ func TestHasMsg(t *testing.T) {
 			title: "err is nil",
 		},
 		{
-			title: "err isn't an Error but has the message",
+			title: "err isn't a base but has the message",
 			err:   fmt.Errorf("foo"),
 			exp:   true,
 		},
 		{
-			title: "err isn't Error",
+			title: "err isn't base",
 			err:   fmt.Errorf("bar"),
 		},
 		{
-			title: "err is an Error but nil",
+			title: "err is a base but nil",
 			err:   e,
 		},
 		{
-			title: "err is an Error but doesn't have the message",
-			err:   &Error{},
+			title: "err is a base but doesn't have the message",
+			err:   &base{},
 		},
 		{
-			title: "err is an Error and has the message",
-			err:   &Error{msgs: []string{"foo"}},
+			title: "err is a base and has the message",
+			err:   &base{msgs: []string{"foo"}},
 			exp:   true,
 		},
 	}
@@ -178,25 +178,25 @@ func TestHasMsg(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	require.Equal(t, &Error{err: fmt.Errorf("foo"), msgs: []string{"foo"}}, New(nil, "foo"))
+	require.Equal(t, &base{err: fmt.Errorf("foo"), msgs: []string{"foo"}}, New(nil, "foo"))
 	require.Equal(
-		t, &Error{err: fmt.Errorf("foo"), msgs: []string{"foo", "bar"}, fields: logrus.Fields{"program": "main"}},
+		t, &base{err: fmt.Errorf("foo"), msgs: []string{"foo", "bar"}, fields: logrus.Fields{"program": "main"}},
 		New(logrus.Fields{"program": "main"}, "foo", "bar"))
 }
 
 func TestNewf(t *testing.T) {
 	require.Equal(
-		t, &Error{err: fmt.Errorf("foo bar"), msgs: []string{"foo bar"}},
+		t, &base{err: fmt.Errorf("foo bar"), msgs: []string{"foo bar"}},
 		Newf(nil, "foo %s", "bar"))
 	require.Equal(
-		t, &Error{
+		t, &base{
 			err: fmt.Errorf("foo"), msgs: []string{"foo"},
 			fields: logrus.Fields{"program": "main"}},
 		Newf(logrus.Fields{"program": "main"}, "foo"))
 }
 
 func TestWrap(t *testing.T) {
-	var e *Error
+	var e *base
 	data := []struct {
 		title  string
 		err    error
@@ -206,16 +206,16 @@ func TestWrap(t *testing.T) {
 	}{{
 		title: "err is nil",
 	}, {
-		title: "err is Error but nil",
+		title: "err is base but nil",
 		err:   e,
 	}, {
-		title: "err is not Error",
+		title: "err is not base",
 		err:   fmt.Errorf("foo"),
 		msgs:  []string{"bar"},
 		fields: logrus.Fields{
 			"foo": "bar",
 		},
-		exp: &Error{
+		exp: &base{
 			err:  fmt.Errorf("foo"),
 			msgs: []string{"foo", "bar"},
 			fields: logrus.Fields{
@@ -223,8 +223,8 @@ func TestWrap(t *testing.T) {
 			},
 		},
 	}, {
-		title: "err is an Error",
-		err: &Error{
+		title: "err is a base",
+		err: &base{
 			err: fmt.Errorf("foo"),
 			fields: logrus.Fields{
 				"foo": "bar",
@@ -236,7 +236,7 @@ func TestWrap(t *testing.T) {
 			"foo": "goo",
 		},
 		msgs: []string{"zoo"},
-		exp: &Error{
+		exp: &base{
 			err:  fmt.Errorf("foo"),
 			msgs: []string{"foo", "zoo"},
 			fields: logrus.Fields{

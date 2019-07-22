@@ -60,7 +60,7 @@ func (logger *Logger) debug(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return
 		}
@@ -135,7 +135,7 @@ func (logger *Logger) err(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return
 		}
@@ -161,7 +161,7 @@ func (logger *Logger) fatal(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return
 		}
@@ -186,7 +186,7 @@ func (logger *Logger) info(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return
 		}
@@ -212,7 +212,7 @@ func (logger *Logger) warn(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*Error); ok {
+	if e, ok := err.(*base); ok {
 		if e == nil {
 			return
 		}
