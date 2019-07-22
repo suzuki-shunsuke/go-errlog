@@ -16,7 +16,7 @@ func CheckField(err error, key string, f func(v interface{}) bool) bool {
 		if e == nil {
 			return false
 		}
-		v, ok := e.Fields()[key]
+		v, ok := e.fields[key]
 		if ok {
 			return f(v)
 		}
@@ -36,7 +36,7 @@ func GetField(err error, key string) (interface{}, bool) {
 		if e == nil {
 			return nil, false
 		}
-		v, ok := e.Fields()[key]
+		v, ok := e.fields[key]
 		return v, ok
 	}
 	return nil, false
@@ -51,7 +51,7 @@ func HasField(err error, key string) bool {
 		if e == nil {
 			return false
 		}
-		_, ok := e.Fields()[key]
+		_, ok := e.fields[key]
 		return ok
 	}
 	return false
@@ -68,7 +68,7 @@ func HasMsg(err error, msg string) bool {
 		if e == nil {
 			return false
 		}
-		for _, m := range e.Msgs() {
+		for _, m := range e.msgs {
 			if m == msg {
 				return true
 			}

@@ -41,25 +41,3 @@ func (e *Error) Error() string {
 	}
 	return join(e.msgs...)
 }
-
-// Fields returns structured data of error.
-func (e *Error) Fields() logrus.Fields {
-	if e == nil {
-		return logrus.Fields{}
-	}
-	if e.fields == nil {
-		e.fields = logrus.Fields{}
-	}
-	return e.fields
-}
-
-// Msgs returns messages.
-func (e *Error) Msgs() []string {
-	if e == nil {
-		return []string{}
-	}
-	if e.msgs == nil {
-		e.msgs = []string{}
-	}
-	return e.msgs
-}

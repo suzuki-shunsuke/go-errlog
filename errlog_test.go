@@ -196,30 +196,60 @@ func TestNewf(t *testing.T) {
 }
 
 func TestWrap(t *testing.T) {
+	var e *Error
 	data := []struct {
-		err       error
-		fields    logrus.Fields
-		msgs      []string
-		expFields logrus.Fields
-		expMsgs   []string
+		title  string
+		err    error
+		fields logrus.Fields
+		msgs   []string
+		exp    error
 	}{{
-		fmt.Errorf("foo"), nil, nil, logrus.Fields{}, []string{"foo"},
+		title: "err is nil",
 	}, {
-		&Error{err: fmt.Errorf("foo"), msgs: []string{"foo"}},
-		logrus.Fields{"foo": "bar"}, nil, logrus.Fields{"foo": "bar"}, []string{"foo"},
+		title: "err is Error but nil",
+		err:   e,
+	}, {
+		title: "err is not Error",
+		err:   fmt.Errorf("foo"),
+		msgs:  []string{"bar"},
+		fields: logrus.Fields{
+			"foo": "bar",
+		},
+		exp: &Error{
+			err:  fmt.Errorf("foo"),
+			msgs: []string{"foo", "bar"},
+			fields: logrus.Fields{
+				"foo": "bar",
+			},
+		},
+	}, {
+		title: "err is an Error",
+		err: &Error{
+			err: fmt.Errorf("foo"),
+			fields: logrus.Fields{
+				"foo": "bar",
+				"zoo": "1",
+			},
+			msgs: []string{"foo"},
+		},
+		fields: logrus.Fields{
+			"foo": "goo",
+		},
+		msgs: []string{"zoo"},
+		exp: &Error{
+			err:  fmt.Errorf("foo"),
+			msgs: []string{"foo", "zoo"},
+			fields: logrus.Fields{
+				"foo": "goo",
+				"zoo": "1",
+			},
+		},
 	}}
 	for _, d := range data {
-		err := Wrap(d.err, d.fields, d.msgs...)
-		require.NotNil(t, err)
-		if e, ok := err.(*Error); ok {
-			require.Equal(t, d.expFields, e.Fields())
-			require.Equal(t, d.expMsgs, e.Msgs())
-		}
+		t.Run(d.title, func(t *testing.T) {
+			require.Equal(t, d.exp, Wrap(d.err, d.fields, d.msgs...))
+		})
 	}
-	require.Nil(t, Wrap(nil, nil, "foo"))
-	require.Nil(t, Wrap(Wrap(nil, nil, "bar"), nil, "foo"))
-	var e *Error
-	require.Nil(t, Wrap(e, nil, "foo"))
 }
 
 func TestWrapf(t *testing.T) {
