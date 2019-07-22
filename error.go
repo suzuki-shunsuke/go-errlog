@@ -13,12 +13,19 @@ type (
 		msgs   []string
 		fields logrus.Fields
 	}
+
+	causer interface {
+		Cause() error
+	}
 )
 
 // Cause returns a base error.
 func (e *Error) Cause() error {
 	if e == nil {
 		return nil
+	}
+	if err, ok := e.err.(causer); ok {
+		return err.Cause()
 	}
 	return e.err
 }

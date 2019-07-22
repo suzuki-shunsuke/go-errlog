@@ -9,13 +9,13 @@ import (
 )
 
 func TestError_Cause(t *testing.T) {
-	msg := "foo"
-	err := Error{err: fmt.Errorf(msg)}
-	e := err.Cause()
-	require.NotNil(t, e)
-	require.Equal(t, msg, e.Error())
+	e := fmt.Errorf("foo")
+	err := Error{err: e}
+	require.Equal(t, e, err.Cause())
 	var e2 *Error
 	require.Nil(t, e2.Cause())
+	e3 := Error{err: &err}
+	require.Equal(t, e, e3.Cause())
 }
 
 func TestError_Error(t *testing.T) {
