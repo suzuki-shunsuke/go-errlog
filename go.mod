@@ -9,5 +9,5 @@ require (
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.5.1
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
-	golang.org/x/sys v0.0.0-20200508214444-3aab700007d7
+	golang.org/x/sys v0.0.0-20200509044756-6aff5f38e54f
 )
