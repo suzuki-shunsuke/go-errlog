@@ -21,7 +21,7 @@ steps:
   - name: gopath
     path: /go
 - name: codecov
-  image: golang:1.15.8
+  image: golang:1.16.0
   commands:
   # bash and cgo seem to be required
   - go test -race -coverprofile=coverage.out -covermode=atomic .
