@@ -1,11 +1,9 @@
 # go-errlog
 
-[![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/suzuki-shunsuke/go-errlog)
-[![Build Status](https://cloud.drone.io/api/badges/suzuki-shunsuke/go-errlog/status.svg)](https://cloud.drone.io/suzuki-shunsuke/go-errlog)
+[![Go Reference](https://pkg.go.dev/badge/github.com/suzuki-shunsuke/go-errlog.svg)](https://pkg.go.dev/github.com/suzuki-shunsuke/go-errlog)
+[![Build Status](https://github.com/suzuki-shunsuke/aqua/workflows/test/badge.svg)](https://github.com/suzuki-shunsuke/aqua/actions)
 [![codecov](https://codecov.io/gh/suzuki-shunsuke/go-errlog/branch/main/graph/badge.svg)](https://codecov.io/gh/suzuki-shunsuke/go-errlog)
-[![Go Report Card](https://goreportcard.com/badge/github.com/suzuki-shunsuke/go-errlog)](https://goreportcard.com/report/github.com/suzuki-shunsuke/go-errlog)
 [![GitHub last commit](https://img.shields.io/github/last-commit/suzuki-shunsuke/go-errlog.svg)](https://github.com/suzuki-shunsuke/go-errlog)
-[![GitHub tag](https://img.shields.io/github/tag/suzuki-shunsuke/go-errlog.svg)](https://github.com/suzuki-shunsuke/go-errlog/releases)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/suzuki-shunsuke/go-errlog/main/LICENSE)
 
 Golang library for logging error with logrus more simply
