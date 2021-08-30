@@ -1,6 +1,7 @@
 package errlog
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/sirupsen/logrus"
@@ -60,7 +61,8 @@ func (logger *Logger) debug(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*base); ok {
+	var e *base
+	if errors.As(err, &e) {
 		if e == nil {
 			return
 		}
@@ -135,7 +137,8 @@ func (logger *Logger) err(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*base); ok {
+	var e *base
+	if errors.As(err, &e) {
 		if e == nil {
 			return
 		}
@@ -161,7 +164,8 @@ func (logger *Logger) fatal(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*base); ok {
+	var e *base
+	if errors.As(err, &e) {
 		if e == nil {
 			return
 		}
@@ -186,7 +190,8 @@ func (logger *Logger) info(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*base); ok {
+	var e *base
+	if errors.As(err, &e) {
 		if e == nil {
 			return
 		}
@@ -212,7 +217,8 @@ func (logger *Logger) warn(err error) {
 	if err == nil {
 		return
 	}
-	if e, ok := err.(*base); ok {
+	var e *base
+	if errors.As(err, &e) {
 		if e == nil {
 			return
 		}

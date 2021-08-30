@@ -191,7 +191,8 @@ func TestNewf(t *testing.T) {
 	require.Equal(
 		t, &base{
 			err: fmt.Errorf("foo"), msgs: []string{"foo"},
-			fields: logrus.Fields{"program": "main"}},
+			fields: logrus.Fields{"program": "main"},
+		},
 		Newf(logrus.Fields{"program": "main"}, "foo"))
 }
 

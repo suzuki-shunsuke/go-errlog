@@ -2,6 +2,7 @@
 package errlog
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/sirupsen/logrus"
@@ -12,15 +13,9 @@ func CheckField(err error, key string, f func(v interface{}) bool) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*base); ok {
-		if e == nil {
-			return false
-		}
-		v, ok := e.fields[key]
-		if ok {
-			return f(v)
-		}
-		return false
+	e := &base{}
+	if ok := errors.As(err, &e); ok {
+		return e.checkField(key, f)
 	}
 	return false
 }
@@ -32,12 +27,9 @@ func GetField(err error, key string) (interface{}, bool) {
 	if err == nil {
 		return nil, false
 	}
-	if e, ok := err.(*base); ok {
-		if e == nil {
-			return nil, false
-		}
-		v, ok := e.fields[key]
-		return v, ok
+	e := &base{}
+	if ok := errors.As(err, &e); ok {
+		return e.getField(key)
 	}
 	return nil, false
 }
@@ -47,12 +39,9 @@ func HasField(err error, key string) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*base); ok {
-		if e == nil {
-			return false
-		}
-		_, ok := e.fields[key]
-		return ok
+	e := &base{}
+	if ok := errors.As(err, &e); ok {
+		return e.hasField(key)
 	}
 	return false
 }
@@ -64,16 +53,9 @@ func HasMsg(err error, msg string) bool {
 	if err == nil {
 		return false
 	}
-	if e, ok := err.(*base); ok {
-		if e == nil {
-			return false
-		}
-		for _, m := range e.msgs {
-			if m == msg {
-				return true
-			}
-		}
-		return false
+	e := &base{}
+	if ok := errors.As(err, &e); ok {
+		return e.hasMsg(msg)
 	}
 	return err.Error() == msg
 }
@@ -81,7 +63,10 @@ func HasMsg(err error, msg string) bool {
 // New is a shorthand of combination of Wrap and fmt.Errorf .
 func New(fields logrus.Fields, msg string, msgs ...string) error {
 	return &base{
-		err: fmt.Errorf(msg), msgs: append([]string{msg}, msgs...), fields: fields}
+		err:    fmt.Errorf(msg),
+		msgs:   append([]string{msg}, msgs...),
+		fields: fields,
+	}
 }
 
 // Newf is a shorthand of combination of New and fmt.Sprintf .
@@ -96,7 +81,8 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) error {
 	if err == nil {
 		return nil
 	}
-	if e, ok := err.(*base); ok {
+	e := &base{}
+	if ok := errors.As(err, &e); ok {
 		if e == nil {
 			return nil
 		}
@@ -114,7 +100,10 @@ func Wrap(err error, fields logrus.Fields, msgs ...string) error {
 		return ret
 	}
 	return &base{
-		err: err, msgs: append([]string{err.Error()}, msgs...), fields: fields}
+		err:    err,
+		msgs:   append([]string{err.Error()}, msgs...),
+		fields: fields,
+	}
 }
 
 // Wrapf is a shordhand of combination of Wrap and fmt.Sprintf .
