@@ -8,6 +8,10 @@
 
 Golang library for logging error with logrus more simply
 
+## :warning: Deprecated. Use `suzuki-shunsuke/logrus-error` instead of this
+
+https://github.com/suzuki-shunsuke/logrus-error
+
 ## Features
 
 * rich error object which has context information and messages
